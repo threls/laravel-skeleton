@@ -1,5 +1,7 @@
 <?php
 
+use App\Shared\Enums\MediaDiskEnum;
+
 return [
 
     /*
@@ -30,7 +32,7 @@ return [
 
     'disks' => [
 
-        'local' => [
+        MediaDiskEnum::LOCAL->value => [
             'driver' => 'local',
             'root' => storage_path('app/private'),
             'serve' => true,
@@ -38,7 +40,7 @@ return [
             'report' => false,
         ],
 
-        'public' => [
+        MediaDiskEnum::PUBLIC->value => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
             'url' => env('APP_URL') . '/storage',
@@ -47,7 +49,7 @@ return [
             'report' => false,
         ],
 
-        's3' => [
+        MediaDiskEnum::AWS_S3->value => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
             'secret' => env('AWS_SECRET_ACCESS_KEY'),
@@ -58,6 +60,28 @@ return [
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
             'report' => false,
+        ],
+
+        MediaDiskEnum::DO_PRIVATE->value => [
+            'driver' => 's3',
+            'key' => env('DO_ACCESS_KEY_ID'),
+            'secret' => env('DO_SECRET_ACCESS_KEY'),
+            'region' => env('DO_DEFAULT_REGION'),
+            'bucket' => env('DO_BUCKET'),
+            'endpoint' => env('DO_ENDPOINT'),
+            'throw' => false,
+            'visibility' => 'private',
+        ],
+
+        MediaDiskEnum::DO_PUBLIC->value => [
+            'driver' => 's3',
+            'key' => env('DO_ACCESS_KEY_ID'),
+            'secret' => env('DO_SECRET_ACCESS_KEY'),
+            'region' => env('DO_DEFAULT_REGION'),
+            'bucket' => env('DO_BUCKET'),
+            'endpoint' => env('DO_ENDPOINT'),
+            'throw' => false,
+            'visibility' => 'public',
         ],
 
     ],
