@@ -1,8 +1,27 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-if command_exists "./vendor/bin/duster fix"; then
+# Helper to check if command exists
+command_exists() {
+    command -v "$1" >/dev/null 2>&1
+}
+
+# Run Duster
+if command_exists "./vendor/bin/duster"; then
     echo "🔍 Running Duster Fix..."
-    ./vendor/bin/duster fix || display_error "Duster found issues"
+    ./vendor/bin/duster fix || { echo "❌ Duster found issues"; exit 1; }
 fi
+
+# Run PHPStan
+if command_exists "./vendor/bin/phpstan"; then
+    echo "🔍 Running PHPStan..."
+    ./vendor/bin/phpstan analyse
+    PHPSTAN_STATUS=$?
+    if [ $PHPSTAN_STATUS -ne 0 ]; then
+        echo "❌ PHPStan found issues. Commit aborted."
+        exit 1
+    fi
+fi
+
+# Run lint-staged
 npx --no-install lint-staged
