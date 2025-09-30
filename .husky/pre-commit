@@ -1,4 +1,8 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
+if ! command -v duster >/dev/null 2>&1; then
+  echo "⚠️  Duster not installed, skipping..."
+  exit 0
+fi
 npx --no-install lint-staged
