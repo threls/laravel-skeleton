@@ -15,8 +15,10 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
         "league/flysystem-aws-s3-v3": "^3.29",
+        "spatie/cpu-load-health-check": "^1.0",
         "spatie/laravel-data": "^4.17",
         "spatie/laravel-flare": "^2.2",
+        "spatie/laravel-health": "^1.34",
         "spatie/laravel-medialibrary": "^11.15",
         "threls/check-env": "^1.1"
     },
