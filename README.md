@@ -1,61 +1,119 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🚀 Laravel Application Template
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A **Laravel 12** application template with **pre-configured development tools**, **Domain-Driven Design structure**, and ready-to-use **CI/CD workflows**.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## ✨ Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- ⚡ **Laravel 12** – Latest Laravel framework
+- 🐘 **PHP 8.4**
+- 🏗 **Domain-Driven Design** – Clean and organized domain structure
+- 🔄 **Pre-configured CI/CD** – GitHub Actions workflows
+- 🧹 **Code Quality Tools** – Larastan, Pint, Duster
+- 🧪 **Testing Framework** – Pest with Laravel plugin
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 🚦 Getting Started
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. Click **"Use this template"** on GitHub
+2. Create a new repository from this template
+3. Clone your new repository locally
+4. Run setup:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```bash
+composer install 
+npm install # (for pre-commit scripts)
+cp .env.example .env 
+php artisan key:generate 
+php artisan migrate
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## 📦 Pre-Installed Libraries
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 🔹 Production Dependencies
+- [**Spatie Laravel Data**](https://github.com/spatie/laravel-data) (^4.17) – Data transfer objects
+- [**Spatie Laravel MediaLibrary**](https://github.com/spatie/laravel-medialibrary) (^11.15) – Media/file management
+- [**Spatie Laravel Flare**](https://github.com/spatie/laravel-flare) (^2.2) – Error tracking
+- [**Laravel Sanctum**](https://laravel.com/docs/sanctum) (^4.0) – API authentication
+- [**Laravel Postmark (Coconut Craig)**](https://github.com/coconutcraig/laravel-postmark) (^3.3) – Email integration
+- [**Threls Check-Env**](https://github.com/threls/check-env) (^1.1) – Environment validation
 
-### Premium Partners
+### 🔹 Development Dependencies
+- [**Larastan**](https://github.com/nunomaduro/larastan) (^3.0) – Static analysis
+- [**Laravel Pint**](https://laravel.com/docs/pint) (^1.24) – Code formatting
+- [**Laravel Pail**](https://github.com/laravel/pail) (^1.2.2) – Real-time log viewer
+- [**Pest**](https://pestphp.com/) (^4.1) – Testing framework
+- [**Pest Laravel Plugin**](https://pestphp.com/docs/laravel) (^4.0) – Laravel-specific Pest features
+- [**Tighten Duster**](https://github.com/tighten/duster) (^3.2) – Code quality tools
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## ⚙️ GitHub Workflow Templates
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+This template ships with **workflow templates** for CI/CD:
 
-## Code of Conduct
+### ✅ CI Workflow (`.github/workflows/ci.yml`)
+Runs on **push** and **pull requests**:
+- ✅ Pest tests
+- ✅ Pint code style check
+- ✅ Larastan static analysis
+- ✅ Duster code quality
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+### 🔍 Environment Validation (`.github/workflows/validate-env.yml.template`)
+- Ensures required environment variables are present
+- Activate by renaming to `validate-env.yml`
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+### ☁️ Vapor Deployment (`.github/workflows/vapor-deploy.yml.template`)
+- Automated **Laravel Vapor** deployments
+- Activate by renaming to `vapor-deploy.yml`
+- Deploys automatically on:
+    - `develop` → Development
+    - `staging` → Staging
+    - `main` → Production
+- Requires `VAPOR_API_TOKEN` secret
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+### 🛠 Vapor Configuration (`vapor.yml.template`)
+- Pre-configured for **development**, **staging**, and **production**
+- Includes:
+    - Database & queue setup
+    - Media storage (DigitalOcean / AWS S3)
+    - Asset compilation via npm
+
+---
+
+## 🪝 Git Hooks (Husky)
+
+This template includes **Husky** pre-commit hooks for code quality.
+
+### 🔹 Active Hook (`.husky/pre-commit`)
+Runs automatically on commit:
+- **Lint-staged**: Applies linters only to staged files
+- Ensures:
+    - Pint runs on staged PHP files
+    - Other configured linters are applied
+
+---
+
+### 🔹 Optional Env Check Hook (`.husky/pre-commit-check-envs.template`)
+Validates environment variables before committing.
+
+**Enable it:**
+```bash
+cp .husky/pre-commit-check-envs.template .husky/pre-commit-check-envs
+```
+Then update `.husky/pre-commit` to include this check.
+
+---
+
+## 🧹 Auto-Linting
+> All staged files are **auto-linted before commit**, ensuring clean and consistent code.  
