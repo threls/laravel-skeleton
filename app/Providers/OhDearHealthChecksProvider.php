@@ -19,15 +19,12 @@ class OhDearHealthChecksProvider extends ServiceProvider
             CpuLoadCheck::new()
                 ->failWhenLoadIsHigherInTheLast5Minutes(2.0)
                 ->failWhenLoadIsHigherInTheLast15Minutes(1.5),
-
             UsedDiskSpaceCheck::new()
                 ->warnWhenUsedSpaceIsAbovePercentage(70)
                 ->failWhenUsedSpaceIsAbovePercentage(90),
             DebugModeCheck::new(),
-
             DatabaseCheck::new(),
             RedisCheck::new(),
-
             RedisMemoryUsageCheck::new()->failWhenAboveMb(1000),
         ]);
     }
