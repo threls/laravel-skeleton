@@ -43,6 +43,7 @@ php artisan migrate
 - [**Spatie Laravel Data**](https://github.com/spatie/laravel-data) (^4.17) – Data transfer objects
 - [**Spatie Laravel MediaLibrary**](https://github.com/spatie/laravel-medialibrary) (^11.15) – Media/file management
 - [**Spatie Laravel Flare**](https://github.com/spatie/laravel-flare) (^2.2) – Error tracking
+- [**Spatie Laravel Health**](https://github.com/spatie/laravel-health) (^1.34) – OhDear Health Checks
 - [**Laravel Sanctum**](https://laravel.com/docs/sanctum) (^4.0) – API authentication
 - [**Laravel Postmark (Coconut Craig)**](https://github.com/coconutcraig/laravel-postmark) (^3.3) – Email integration
 - [**Threls Check-Env**](https://github.com/threls/check-env) (^1.1) – Environment validation
