@@ -1,0 +1,42 @@
+id: 3  # replace it with a vapor project number
+name: vapor-app
+environments:
+  development:
+    memory: 1024
+    database: vapor-app
+    cache: vapor-cache
+    domain:
+      - 'example.threls.dev'
+    build:
+      - 'composer install --no-dev'
+      - 'php artisan event:cache'
+    deploy:
+      - 'php artisan migrate'
+  staging:
+    memory: 1024
+    database: vapor-app
+    cache: vapor-cache
+    domain:
+      - 'example.threls.dev'
+    build:
+      - 'composer install --no-dev'
+      - 'php artisan event:cache'
+      - 'php artisan config:clear'
+      - 'php artisan route:clear'
+      - 'php artisan cache:clear'
+    deploy:
+      - 'php artisan migrate'
+  production:
+    memory: 1024
+    database: vapor-app
+    cache: vapor-cache
+    domain:
+      - 'example.threls.dev'
+    build:
+      - 'composer install --no-dev'
+      - 'php artisan event:cache'
+      - 'php artisan config:clear'
+      - 'php artisan route:clear'
+      - 'php artisan cache:clear'
+    deploy:
+      - 'php artisan migrate --force'
