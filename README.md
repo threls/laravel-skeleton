@@ -30,6 +30,11 @@ php artisan key:generate
 php artisan migrate
 ```
 
+## Configured media disks
+
+- DigitalOcean  
+- AWS S3
+
 ---
 
 ## 📦 Pre-Installed Libraries
@@ -42,12 +47,10 @@ php artisan migrate
 - [**Laravel Postmark (Coconut Craig)**](https://github.com/coconutcraig/laravel-postmark) (^3.3) – Email integration
 - [**Threls Check-Env**](https://github.com/threls/check-env) (^1.1) – Environment validation
 
-### 🔹 Development Dependencies
 - [**Larastan**](https://github.com/nunomaduro/larastan) (^3.0) – Static analysis
 - [**Laravel Pint**](https://laravel.com/docs/pint) (^1.24) – Code formatting
 - [**Laravel Pail**](https://github.com/laravel/pail) (^1.2.2) – Real-time log viewer
 - [**Pest**](https://pestphp.com/) (^4.1) – Testing framework
-- [**Pest Laravel Plugin**](https://pestphp.com/docs/laravel) (^4.0) – Laravel-specific Pest features
 - [**Tighten Duster**](https://github.com/tighten/duster) (^3.2) – Code quality tools
 
 ---
@@ -58,26 +61,22 @@ This template ships with **workflow templates** for CI/CD:
 
 ### ✅ CI Workflow (`.github/workflows/ci.yml`)
 Runs on **push** and **pull requests**:
-- ✅ Pest tests
-- ✅ Pint code style check
-- ✅ Larastan static analysis
 - ✅ Duster code quality
 
 ---
 
 ### 🔍 Environment Validation (`.github/workflows/validate-env.yml.template`)
-- Ensures required environment variables are present
+- Ensures required environment variables are present on all configured envs
 - Activate by renaming to `validate-env.yml`
 
 ---
 
-### ☁️ Vapor Deployment (`.github/workflows/vapor-deploy.yml.template`)
+### ☁️ Vapor Deployment CI (`.github/workflows/vapor-deploy.yml.template`)
 - Automated **Laravel Vapor** deployments
 - Activate by renaming to `vapor-deploy.yml`
 - Deploys automatically on:
     - `develop` → Development
-    - `staging` → Staging
-    - `main` → Production
+    - `main` → Staging, Production
 - Requires `VAPOR_API_TOKEN` secret
 
 ---
@@ -86,8 +85,7 @@ Runs on **push** and **pull requests**:
 - Pre-configured for **development**, **staging**, and **production**
 - Includes:
     - Database & queue setup
-    - Media storage (DigitalOcean / AWS S3)
-    - Asset compilation via npm
+    - Environment configurations
 
 ---
 
@@ -99,7 +97,7 @@ This template includes **Husky** pre-commit hooks for code quality.
 Runs automatically on commit:
 - **Lint-staged**: Applies linters only to staged files
 - Ensures:
-    - Pint runs on staged PHP files
+    - Duster runs on staged PHP files
     - Other configured linters are applied
 
 ---
