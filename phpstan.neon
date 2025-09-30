@@ -3,7 +3,6 @@ includes:
     - vendor/nesbot/carbon/extension.neon
 
 parameters:
-    treatPhpDocTypesAsCertain: false
     paths:
         - app/
 

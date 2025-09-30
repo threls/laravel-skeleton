@@ -18,7 +18,7 @@ enum MediaDiskEnum: string
     {
         return match ($this) {
             self::DO_PRIVATE => true ,
-            self::LOCAL, self::DO_PUBLIC, self::PUBLIC, self::AWS => false
+            self::LOCAL, self::DO_PUBLIC, self::PUBLIC, self::AWS_S3 => false
         };
     }
 }

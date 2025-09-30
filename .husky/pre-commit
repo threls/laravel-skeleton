@@ -5,3 +5,4 @@ if command_exists "./vendor/bin/duster fix"; then
     echo "🔍 Running Duster Fix..."
     ./vendor/bin/duster fix || display_error "Duster found issues"
 fi
+npx --no-install lint-staged
