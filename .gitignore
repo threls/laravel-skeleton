@@ -7,6 +7,12 @@
 .env.staging
 .phpactor.json
 .phpunit.result.cache
+.output.txt
+boost.json
+AGENTS.md
+.ai
+.junie
+.github/copilot-instructions.md
 /.fleet
 /.idea
 /.nova

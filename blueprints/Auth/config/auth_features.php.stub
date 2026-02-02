@@ -1,0 +1,8 @@
+<?php
+
+return [
+    'registration' => true,
+    'email_verification' => false,
+    'email_otp' => false,
+    'otp_expiry' => 10,
+];

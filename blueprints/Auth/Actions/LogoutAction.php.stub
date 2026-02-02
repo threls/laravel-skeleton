@@ -1,0 +1,14 @@
+<?php
+
+namespace {{namespace}}\Actions;
+
+use Domain\Users\Models\User;
+use Illuminate\Support\Facades\Auth;
+
+class LogoutAction
+{
+    public function execute(User $user): void
+    {
+        $user->currentAccessToken()->delete();
+    }
+}
