@@ -3,27 +3,15 @@
 namespace App\Http\Api\Auth\Controllers;
 
 use {{namespace}}\Actions\LoginAction;
-use {{namespace}}\Actions\LogoutAction;
-use {{namespace}}\Data\AuthResponseData;
 use {{namespace}}\Data\LoginData;
-use App\Http\Controllers\Controller;
 use App\Http\Api\Auth\Requests\LoginRequest;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Contracts\Support\Responsable;
 
 class LoginController extends Controller
 {
-    public function store(LoginRequest $request, LoginAction $action): JsonResponse
+    public function __invoke(LoginRequest $request, LoginAction $action): Responsable
     {
-        return $action->execute(LoginData::from($request))->toResponse($request);
-    }
-
-    public function destroy(Request $request, LogoutAction $action): JsonResponse
-    {
-        $action->execute($request->user());
-
-        return AuthResponseData::from([
-            'message' => 'Logged out successfully.',
-        ])->toResponse($request);
+        return $action->execute(LoginData::from($request));
     }
 }

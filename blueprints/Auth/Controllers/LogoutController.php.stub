@@ -2,17 +2,20 @@
 
 namespace App\Http\Api\Auth\Controllers;
 
+use {{namespace}}\Actions\LogoutAction;
 use {{namespace}}\Data\AuthResponseData;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Request;
 
-class ProfileController extends Controller
+class LogoutController extends Controller
 {
-    public function __invoke(Request $request): Responsable
+    public function __invoke(Request $request, LogoutAction $action): Responsable
     {
+        $action->execute($request->user());
+
         return AuthResponseData::from([
-            'user' => $request->user(),
+            'message' => 'Logged out successfully.',
         ]);
     }
 }

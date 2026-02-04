@@ -5,13 +5,13 @@ namespace App\Http\Api\Auth\Controllers;
 use {{namespace}}\Actions\RegisterAction;
 use {{namespace}}\Data\RegisterData;
 use App\Http\Controllers\Controller;
+use Illuminate\Contracts\Support\Responsable;
 use App\Http\Api\Auth\Requests\RegisterRequest;
-use Illuminate\Http\JsonResponse;
 
 class RegisterController extends Controller
 {
-    public function store(RegisterRequest $request, RegisterAction $action): JsonResponse
+    public function __invoke(RegisterRequest $request, RegisterAction $action): Responsable
     {
-        return $action->execute(RegisterData::from($request))->toResponse($request);
+        return $action->execute(RegisterData::from($request));
     }
 }

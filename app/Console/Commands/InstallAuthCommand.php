@@ -28,16 +28,21 @@ class InstallAuthCommand extends Command
             'blueprints/Auth/Actions/ForgotPasswordAction.php.stub' => $domainPath . '/Actions/ForgotPasswordAction.php',
             'blueprints/Auth/Actions/ResetPasswordAction.php.stub' => $domainPath . '/Actions/ResetPasswordAction.php',
             'blueprints/Auth/Actions/VerifyOtpAction.php.stub' => $domainPath . '/Actions/VerifyOtpAction.php',
+            'blueprints/Auth/Actions/SocialLoginAction.php.stub' => $domainPath . '/Actions/SocialLoginAction.php',
             'blueprints/Auth/Data/LoginData.php.stub' => $domainPath . '/Data/LoginData.php',
             'blueprints/Auth/Data/RegisterData.php.stub' => $domainPath . '/Data/RegisterData.php',
             'blueprints/Auth/Data/ResetPasswordData.php.stub' => $domainPath . '/Data/ResetPasswordData.php',
             'blueprints/Auth/Data/OtpData.php.stub' => $domainPath . '/Data/OtpData.php',
             'blueprints/Auth/Data/AuthResponseData.php.stub' => $domainPath . '/Data/AuthResponseData.php',
+            'blueprints/Auth/Data/SocialLoginData.php.stub' => $domainPath . '/Data/SocialLoginData.php',
             'blueprints/Auth/Notifications/OtpNotification.php.stub' => $domainPath . '/Notifications/OtpNotification.php',
             'blueprints/Auth/Exceptions/InvalidCredentialsException.php.stub' => $domainPath . '/Exceptions/InvalidCredentialsException.php',
             'blueprints/Auth/Exceptions/InvalidTokenException.php.stub' => $domainPath . '/Exceptions/InvalidTokenException.php',
             'blueprints/Auth/Exceptions/InvalidOtpException.php.stub' => $domainPath . '/Exceptions/InvalidOtpException.php',
+            'blueprints/Auth/Exceptions/SocialAuthenticationException.php.stub' => $domainPath . '/Exceptions/SocialAuthenticationException.php',
+            'blueprints/Auth/Exceptions/SocialProviderDisabledException.php.stub' => $domainPath . '/Exceptions/SocialProviderDisabledException.php',
             'blueprints/Auth/Controllers/LoginController.php.stub' => app_path('Http/Api/Auth/Controllers/LoginController.php'),
+            'blueprints/Auth/Controllers/LogoutController.php.stub' => app_path('Http/Api/Auth/Controllers/LogoutController.php'),
             'blueprints/Auth/Controllers/RegisterController.php.stub' => app_path('Http/Api/Auth/Controllers/RegisterController.php'),
             'blueprints/Auth/Controllers/ForgotPasswordController.php.stub' => app_path('Http/Api/Auth/Controllers/ForgotPasswordController.php'),
             'blueprints/Auth/Controllers/ResetPasswordController.php.stub' => app_path('Http/Api/Auth/Controllers/ResetPasswordController.php'),
@@ -45,12 +50,14 @@ class InstallAuthCommand extends Command
             'blueprints/Auth/Controllers/EmailVerificationController.php.stub' => app_path('Http/Api/Auth/Controllers/EmailVerificationController.php'),
             'blueprints/Auth/Controllers/ResendVerificationNotificationController.php.stub' => app_path('Http/Api/Auth/Controllers/ResendVerificationNotificationController.php'),
             'blueprints/Auth/Controllers/OtpVerificationController.php.stub' => app_path('Http/Api/Auth/Controllers/OtpVerificationController.php'),
+            'blueprints/Auth/Controllers/SocialLoginController.php.stub' => app_path('Http/Api/Auth/Controllers/SocialLoginController.php'),
             'blueprints/Auth/Requests/LoginRequest.php.stub' => app_path('Http/Api/Auth/Requests/LoginRequest.php'),
             'blueprints/Auth/Requests/RegisterRequest.php.stub' => app_path('Http/Api/Auth/Requests/RegisterRequest.php'),
             'blueprints/Auth/Requests/ForgotPasswordRequest.php.stub' => app_path('Http/Api/Auth/Requests/ForgotPasswordRequest.php'),
             'blueprints/Auth/Requests/ResetPasswordRequest.php.stub' => app_path('Http/Api/Auth/Requests/ResetPasswordRequest.php'),
             'blueprints/Auth/Requests/EmailVerificationRequest.php.stub' => app_path('Http/Api/Auth/Requests/EmailVerificationRequest.php'),
             'blueprints/Auth/Requests/VerifyOtpRequest.php.stub' => app_path('Http/Api/Auth/Requests/VerifyOtpRequest.php'),
+            'blueprints/Auth/Requests/SocialLoginRequest.php.stub' => app_path('Http/Api/Auth/Requests/SocialLoginRequest.php'),
             'blueprints/Auth/config/auth_features.php.stub' => config_path('auth_features.php'),
         ];
 
@@ -117,11 +124,23 @@ class InstallAuthCommand extends Command
             $otpExpiry = $this->ask('OTP expiry time in minutes?', config('auth_features.otp_expiry', 10));
         }
 
+        $socialLogin = $this->confirm('Enable social login?', config('auth_features.social_login', false));
+        $googleLogin = false;
+        $appleLogin = false;
+
+        if ($socialLogin) {
+            $googleLogin = $this->confirm('Enable Google login?', config('auth_features.google_login', false));
+            $appleLogin = $this->confirm('Enable Apple login?', config('auth_features.apple_login', false));
+        }
+
         $this->updateConfig([
             'registration' => $registration,
             'email_verification' => $emailVerification,
             'email_otp' => $emailOtp,
             'otp_expiry' => (int) $otpExpiry,
+            'social_login' => $socialLogin,
+            'google_login' => $googleLogin,
+            'apple_login' => $appleLogin,
         ]);
 
         config([
@@ -129,6 +148,9 @@ class InstallAuthCommand extends Command
             'auth_features.email_verification' => $emailVerification,
             'auth_features.email_otp' => $emailOtp,
             'auth_features.otp_expiry' => $otpExpiry,
+            'auth_features.social_login' => $socialLogin,
+            'auth_features.google_login' => $googleLogin,
+            'auth_features.apple_login' => $appleLogin,
         ]);
     }
 

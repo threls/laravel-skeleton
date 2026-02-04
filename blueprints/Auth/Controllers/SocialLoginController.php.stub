@@ -1,0 +1,33 @@
+<?php
+
+namespace App\Http\Api\Auth\Controllers;
+
+use {{namespace}}\Actions\SocialLoginAction;
+use {{namespace}}\Data\SocialLoginData;
+use {{namespace}}\Exceptions\SocialProviderDisabledException;
+use App\Http\Api\Auth\Requests\SocialLoginRequest;
+use App\Http\Controllers\Controller;
+use Illuminate\Contracts\Support\Responsable;
+
+class SocialLoginController extends Controller
+{
+    public function __invoke(SocialLoginRequest $request, SocialLoginAction $action): Responsable
+    {
+        $this->ensureProviderIsEnabled($request->input('provider'));
+
+        return $action->execute(SocialLoginData::from($request));
+    }
+
+    protected function ensureProviderIsEnabled(string $provider): void
+    {
+        $isEnabled = config('auth_features.social_login') && match ($provider) {
+            'google' => config('auth_features.google_login'),
+            'apple' => config('auth_features.apple_login'),
+            default => false,
+        };
+
+        if (! $isEnabled) {
+            throw new SocialProviderDisabledException();
+        }
+    }
+}

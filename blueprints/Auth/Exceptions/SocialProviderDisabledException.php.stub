@@ -1,0 +1,13 @@
+<?php
+
+namespace {{namespace}}\Exceptions;
+
+use Symfony\Component\HttpKernel\Exception\HttpException;
+
+class SocialProviderDisabledException extends HttpException
+{
+    public function __construct(string $message = 'This social provider is disabled.')
+    {
+        parent::__construct(403, $message);
+    }
+}

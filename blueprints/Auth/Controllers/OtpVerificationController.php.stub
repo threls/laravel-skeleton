@@ -6,12 +6,12 @@ use {{namespace}}\Actions\VerifyOtpAction;
 use {{namespace}}\Data\OtpData;
 use App\Http\Controllers\Controller;
 use App\Http\Api\Auth\Requests\VerifyOtpRequest;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Contracts\Support\Responsable;
 
 class OtpVerificationController extends Controller
 {
-    public function store(VerifyOtpRequest $request, VerifyOtpAction $action): JsonResponse
+    public function __invoke(VerifyOtpRequest $request, VerifyOtpAction $action): Responsable
     {
-        return $action->execute($request->user(), OtpData::from($request))->toResponse($request);
+        return $action->execute($request->user(), OtpData::from($request));
     }
 }
