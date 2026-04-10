@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Http\Api\Auth\Controllers;
+
+use {{namespace}}\Data\AuthResponseData;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+
+class ResendVerificationNotificationController extends Controller
+{
+    public function store(Request $request): JsonResponse
+    {
+        if ($request->user()->hasVerifiedEmail()) {
+            return AuthResponseData::from([
+                'message' => 'Email already verified.',
+            ])->toResponse($request)->setStatusCode(400);
+        }
+
+        $request->user()->sendEmailVerificationNotification();
+
+        return AuthResponseData::from([
+            'message' => 'Verification link sent.',
+        ])->toResponse($request);
+    }
+}

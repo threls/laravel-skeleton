@@ -4,5 +4,8 @@
             "phpstan": ["./vendor/bin/phpstan", "analyse"]
         }
     },
-    "processTimeout": 120
+    "processTimeout": 120,
+    "exclude": [
+        "blueprints"
+    ]
 }

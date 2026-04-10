@@ -1,0 +1,17 @@
+<?php
+
+namespace App\Http\Api\Auth\Controllers;
+
+use {{namespace}}\Actions\VerifyOtpAction;
+use {{namespace}}\Data\OtpData;
+use App\Http\Controllers\Controller;
+use App\Http\Api\Auth\Requests\VerifyOtpRequest;
+use Illuminate\Http\JsonResponse;
+
+class OtpVerificationController extends Controller
+{
+    public function store(VerifyOtpRequest $request, VerifyOtpAction $action): JsonResponse
+    {
+        return $action->execute($request->user(), OtpData::from($request))->toResponse($request);
+    }
+}

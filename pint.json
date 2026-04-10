@@ -41,5 +41,9 @@
             "style": "annotation"
         },
         "simple_to_complex_string_variable": true
-    }
+    },
+
+    "exclude": [
+      "blueprints"
+    ]
 }
