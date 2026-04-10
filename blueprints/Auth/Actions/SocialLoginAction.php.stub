@@ -1,0 +1,44 @@
+<?php
+
+namespace {{namespace}}\Actions;
+
+use {{namespace}}\Data\AuthResponseData;
+use {{namespace}}\Data\SocialLoginData;
+use {{namespace}}\Exceptions\SocialAuthenticationException;
+use Domain\Users\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Laravel\Socialite\Facades\Socialite;
+
+class SocialLoginAction
+{
+    public function execute(SocialLoginData $data): AuthResponseData
+    {
+        try {
+            $socialUser = Socialite::driver($data->provider)->userFromToken($data->token);
+        } catch (\Exception $e) {
+            throw new SocialAuthenticationException('Invalid social token.');
+        }
+
+        if (! $socialUser->getEmail()) {
+            throw new SocialAuthenticationException('Could not retrieve email from social provider.');
+        }
+
+        $user = User::where('email', $socialUser->getEmail())->first();
+
+        if (! $user) {
+            $user = User::create([
+                'name' => $socialUser->getName() ?? $socialUser->getNickname() ?? 'Social User',
+                'email' => $socialUser->getEmail(),
+                'password' => Hash::make(Str::random(24)),
+                'email_verified_at' => now(),
+            ]);
+        }
+
+        return AuthResponseData::from([
+            'user' => $user,
+            'token' => $user->createToken('auth_token')->plainTextToken,
+            'message' => 'Logged in via ' . ucfirst($data->provider) . ' successfully.',
+        ]);
+    }
+}

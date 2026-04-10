@@ -2,42 +2,50 @@
 use App\Http\Api\Auth\Controllers\EmailVerificationController;
 use App\Http\Api\Auth\Controllers\ForgotPasswordController;
 use App\Http\Api\Auth\Controllers\LoginController;
+use App\Http\Api\Auth\Controllers\LogoutController;
 use App\Http\Api\Auth\Controllers\OtpVerificationController;
 use App\Http\Api\Auth\Controllers\ProfileController;
 use App\Http\Api\Auth\Controllers\RegisterController;
 use App\Http\Api\Auth\Controllers\ResendVerificationNotificationController;
 use App\Http\Api\Auth\Controllers\ResetPasswordController;
+use App\Http\Api\Auth\Controllers\SocialLoginController;
 
 Route::prefix('auth')->group(function () {
-    Route::post('login', [LoginController::class, 'store'])->middleware('throttle:6,1');
+    Route::post('login', LoginController::class)->middleware('throttle:6,1');
 
     if (config('auth_features.registration')) {
-        Route::post('register', [RegisterController::class, 'store'])->middleware('throttle:6,1');
+        Route::post('register', RegisterController::class)->middleware('throttle:6,1');
     }
 
-    Route::post('forgot-password', [ForgotPasswordController::class, 'store'])
+    Route::post('forgot-password', ForgotPasswordController::class)
         ->middleware('throttle:6,1')
         ->name('password.email');
 
-    Route::post('reset-password', [ResetPasswordController::class, 'store'])
+    Route::post('reset-password', ResetPasswordController::class)
         ->middleware('throttle:6,1')
         ->name('password.update');
 
-    Route::post('logout', [LoginController::class, 'destroy'])->middleware('auth:sanctum');
-    Route::get('me', [ProfileController::class, 'show'])->middleware('auth:sanctum');
+    Route::post('logout', LogoutController::class)->middleware('auth:sanctum');
+    Route::get('me', ProfileController::class)->middleware('auth:sanctum');
+
+    if (config('auth_features.social_login')) {
+        Route::post('social/login', SocialLoginController::class)
+            ->middleware('throttle:6,1')
+            ->name('social.login');
+    }
 
     if (config('auth_features.email_verification')) {
-        Route::get('verify-email/{id}/{hash}', [EmailVerificationController::class, 'update'])
+        Route::get('verify-email/{id}/{hash}', EmailVerificationController::class)
             ->middleware(['auth:sanctum', 'signed'])
             ->name('verification.verify');
 
-        Route::post('email/verification-notification', [ResendVerificationNotificationController::class, 'store'])
+        Route::post('email/verification-notification', ResendVerificationNotificationController::class)
             ->middleware(['auth:sanctum', 'throttle:6,1'])
             ->name('verification.send');
     }
 
     if (config('auth_features.email_otp')) {
-        Route::post('verify-otp', [OtpVerificationController::class, 'store'])
+        Route::post('verify-otp', OtpVerificationController::class)
             ->middleware(['auth:sanctum', 'throttle:6,1'])
             ->name('verification.otp');
     }

@@ -5,4 +5,9 @@ return [
     'email_verification' => false,
     'email_otp' => false,
     'otp_expiry' => 10,
+
+    // Social login feature flags
+    'social_login' => false,
+    'google_login' => false,
+    'apple_login' => false,
 ];
