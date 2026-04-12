@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Auth\Actions;
 
 use Domain\Users\Models\User;
 
-class LogoutAction
+final class LogoutAction
 {
     public function execute(User $user): void
     {

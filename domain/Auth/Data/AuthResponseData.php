@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Auth\Data;
 
 use Domain\Users\Models\User;
@@ -8,7 +10,7 @@ use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Mappers\SnakeCaseMapper;
 
 #[MapName(SnakeCaseMapper::class)]
-class AuthResponseData extends Data
+final class AuthResponseData extends Data
 {
     public function __construct(
         public ?User $user = null,

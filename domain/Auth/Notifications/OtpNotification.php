@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Auth\Notifications;
 
 use Illuminate\Bus\Queueable;
@@ -7,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class OtpNotification extends Notification implements ShouldQueue
+final class OtpNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 

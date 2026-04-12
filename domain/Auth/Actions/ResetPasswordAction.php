@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Auth\Actions;
 
 use Domain\Auth\Data\AuthResponseData;
@@ -10,7 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 
-class ResetPasswordAction
+final class ResetPasswordAction
 {
     public function execute(ResetPasswordData $data): AuthResponseData
     {
@@ -30,7 +32,7 @@ class ResetPasswordAction
         ]);
     }
 
-    protected function resetPassword($user, $password): void
+    private function resetPassword($user, $password): void
     {
         $user->forceFill([
             'password' => Hash::make($password),

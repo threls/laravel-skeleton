@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
@@ -11,7 +13,7 @@ use Spatie\Health\Checks\Checks\RedisMemoryUsageCheck;
 use Spatie\Health\Checks\Checks\UsedDiskSpaceCheck;
 use Spatie\Health\Facades\Health;
 
-class OhDearHealthChecksProvider extends ServiceProvider
+final class OhDearHealthChecksProvider extends ServiceProvider
 {
     public function register(): void
     {

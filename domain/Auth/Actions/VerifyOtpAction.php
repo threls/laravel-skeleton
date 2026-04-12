@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Auth\Actions;
 
 use Domain\Auth\Data\AuthResponseData;
@@ -8,7 +10,7 @@ use Domain\Auth\Exceptions\InvalidOtpException;
 use Domain\Users\Models\User;
 use Illuminate\Support\Facades\Cache;
 
-class VerifyOtpAction
+final class VerifyOtpAction
 {
     public function execute(User $user, OtpData $data): AuthResponseData
     {
@@ -16,7 +18,7 @@ class VerifyOtpAction
 
         $user->markEmailAsVerified();
 
-        Cache::forget('otp_' . $user->id);
+        Cache::forget('otp_'.$user->id);
 
         return AuthResponseData::from([
             'user' => $user,
@@ -25,9 +27,9 @@ class VerifyOtpAction
         ]);
     }
 
-    protected function verify(User $user, OtpData $data): void
+    private function verify(User $user, OtpData $data): void
     {
-        $cachedOtp = Cache::get('otp_' . $user->id);
+        $cachedOtp = Cache::get('otp_'.$user->id);
 
         if (! $cachedOtp || $cachedOtp !== $data->otp) {
             throw new InvalidOtpException;

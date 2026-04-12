@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Auth\Actions;
 
 use Domain\Auth\Data\AuthResponseData;
 use Domain\Auth\Exceptions\InvalidTokenException;
 use Illuminate\Support\Facades\Password;
 
-class ForgotPasswordAction
+final class ForgotPasswordAction
 {
     public function execute(string $email): AuthResponseData
     {
