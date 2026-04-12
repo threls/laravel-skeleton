@@ -1,13 +1,13 @@
 # 🚀 Laravel Application Template
 
-A **Laravel 12** application template with **pre-configured development tools**, **Domain-Driven Design structure**, and ready-to-use **CI/CD workflows**.
+A **Laravel 13** application template with **pre-configured development tools**, **Domain-Driven Design structure**, and ready-to-use **CI/CD workflows**.
 
 ---
 
 ## ✨ Features
 
-- ⚡ **Laravel 12** – Latest Laravel framework
-- 🐘 **PHP 8.4**
+- ⚡ **Laravel 13** – Latest Laravel framework
+- 🐘 **PHP 8.5**
 - 🏗 **Domain-Driven Design** – Clean and organized domain structure
 - 🔄 **Pre-configured CI/CD** – GitHub Actions workflows
 - 🧹 **Code Quality Tools** – Larastan, Pint, Duster
@@ -40,19 +40,19 @@ php artisan migrate
 ## 📦 Pre-Installed Libraries
 
 ### 🔹 Production Dependencies
-- [**Spatie Laravel Data**](https://github.com/spatie/laravel-data) (^4.17) – Data transfer objects
-- [**Spatie Laravel MediaLibrary**](https://github.com/spatie/laravel-medialibrary) (^11.15) – Media/file management
-- [**Spatie Laravel Flare**](https://github.com/spatie/laravel-flare) (^2.2) – Error tracking
-- [**Spatie Laravel Health**](https://github.com/spatie/laravel-health) (^1.34) – OhDear Health Checks
-- [**Laravel Sanctum**](https://laravel.com/docs/sanctum) (^4.0) – API authentication
-- [**Laravel Postmark (Coconut Craig)**](https://github.com/coconutcraig/laravel-postmark) (^3.3) – Email integration
+- [**Spatie Laravel Data**](https://github.com/spatie/laravel-data)  – Data transfer objects
+- [**Spatie Laravel MediaLibrary**](https://github.com/spatie/laravel-medialibrary)  – Media/file management
+- [**Spatie Laravel Flare**](https://github.com/spatie/laravel-flare)  – Error tracking
+- [**Spatie Laravel Health**](https://github.com/spatie/laravel-health)  – OhDear Health Checks
+- [**Laravel Sanctum**](https://laravel.com/docs/sanctum)  – API authentication
+- [**Laravel Postmark (Coconut Craig)**](https://github.com/coconutcraig/laravel-postmark)  – Email integration
 - [**Threls Check-Env**](https://github.com/threls/check-env) (^1.1) – Environment validation
 
-- [**Larastan**](https://github.com/nunomaduro/larastan) (^3.0) – Static analysis
-- [**Laravel Pint**](https://laravel.com/docs/pint) (^1.24) – Code formatting
-- [**Laravel Pail**](https://github.com/laravel/pail) (^1.2.2) – Real-time log viewer
-- [**Pest**](https://pestphp.com/) (^4.1) – Testing framework
-- [**Tighten Duster**](https://github.com/tighten/duster) (^3.2) – Code quality tools
+- [**Larastan**](https://github.com/nunomaduro/larastan)  – Static analysis
+- [**Laravel Pint**](https://laravel.com/docs/pint)  – Code formatting
+- [**Laravel Pail**](https://github.com/laravel/pail)  – Real-time log viewer
+- [**Pest**](https://pestphp.com/)  – Testing framework
+- [**Tighten Duster**](https://github.com/tighten/duster) – Code quality tools
 
 ---
 
