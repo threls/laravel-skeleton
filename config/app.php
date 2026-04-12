@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /*
@@ -95,7 +97,7 @@ return [
     |
     */
 
-    'cipher' => 'AES-256-CBC',
+    'cipher' => env('APP_CIPHER', 'AES-256-CBC'),
 
     'key' => env('APP_KEY'),
 

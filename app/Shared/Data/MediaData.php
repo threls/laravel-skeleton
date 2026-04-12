@@ -12,8 +12,12 @@ use Spatie\LaravelData\Optional;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 #[MapName(SnakeCaseMapper::class)]
-class MediaData extends Data
+final class MediaData extends Data
 {
+    /**
+     * @param  Optional|array<string, string>  $conversions
+     * @param  Optional|array<array-key, mixed>  $customProperties
+     */
     public function __construct(
         #[Prohibited]
         public int $id,
@@ -41,20 +45,27 @@ class MediaData extends Data
             fileName: $media->file_name,
             url: self::getUrl($media, '', $temporaryUrl),
             extension: $media->extension,
-            conversions: self::getConversions($media, $temporaryUrl),
+            conversions: self::getConversions($media, $temporaryUrl ?? false),
             customProperties: $media->custom_properties ?? [],
             size: $media->size,
         );
     }
 
+    /**
+     * @return array<string, string>
+     */
     protected static function getConversions(Media $media, bool $temporaryUrl = false): array
     {
         $conversions = [];
 
         if ($media->getGeneratedConversions()->isNotEmpty()) {
-            collect($media->getMediaConversionNames())->each(function ($conversion) use (&$conversions, $media, $temporaryUrl) {
+            foreach ($media->getMediaConversionNames() as $conversion) {
+                if (! is_string($conversion)) {
+                    continue;
+                }
+
                 $conversions[$conversion] = self::getUrl($media, $conversion, $temporaryUrl);
-            });
+            }
         }
 
         return $conversions;

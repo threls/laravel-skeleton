@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Auth\Actions;
 
 use Domain\Auth\Data\AuthResponseData;
@@ -10,7 +12,7 @@ use Domain\Users\Models\User;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 
-class LoginAction
+final class LoginAction
 {
     public function execute(LoginData $data): AuthResponseData
     {
@@ -27,7 +29,7 @@ class LoginAction
         ]);
     }
 
-    protected function authenticate(LoginData $data): User
+    private function authenticate(LoginData $data): User
     {
         $user = User::where('email', $data->email)->first();
 
@@ -38,12 +40,12 @@ class LoginAction
         return $user;
     }
 
-    protected function sendOtp(User $user): AuthResponseData
+    private function sendOtp(User $user): AuthResponseData
     {
         $otp = (string) rand(100000, 999999);
         $expiry = config('auth_features.otp_expiry', 10);
 
-        Cache::put('otp_' . $user->id, $otp, now()->addMinutes($expiry));
+        Cache::put('otp_'.$user->id, $otp, now()->addMinutes($expiry));
 
         $user->notify(new OtpNotification($otp, $expiry));
 

@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
-class InstallAuthCommand extends Command
+final class InstallAuthCommand extends Command
 {
     protected $signature = 'auth:install {--force : Overwrite existing files}';
 
@@ -22,21 +22,21 @@ class InstallAuthCommand extends Command
         $domainPath = base_path('domain/Auth');
 
         $stubs = [
-            'blueprints/Auth/Actions/LoginAction.php.stub' => $domainPath . '/Actions/LoginAction.php',
-            'blueprints/Auth/Actions/LogoutAction.php.stub' => $domainPath . '/Actions/LogoutAction.php',
-            'blueprints/Auth/Actions/RegisterAction.php.stub' => $domainPath . '/Actions/RegisterAction.php',
-            'blueprints/Auth/Actions/ForgotPasswordAction.php.stub' => $domainPath . '/Actions/ForgotPasswordAction.php',
-            'blueprints/Auth/Actions/ResetPasswordAction.php.stub' => $domainPath . '/Actions/ResetPasswordAction.php',
-            'blueprints/Auth/Actions/VerifyOtpAction.php.stub' => $domainPath . '/Actions/VerifyOtpAction.php',
-            'blueprints/Auth/Data/LoginData.php.stub' => $domainPath . '/Data/LoginData.php',
-            'blueprints/Auth/Data/RegisterData.php.stub' => $domainPath . '/Data/RegisterData.php',
-            'blueprints/Auth/Data/ResetPasswordData.php.stub' => $domainPath . '/Data/ResetPasswordData.php',
-            'blueprints/Auth/Data/OtpData.php.stub' => $domainPath . '/Data/OtpData.php',
-            'blueprints/Auth/Data/AuthResponseData.php.stub' => $domainPath . '/Data/AuthResponseData.php',
-            'blueprints/Auth/Notifications/OtpNotification.php.stub' => $domainPath . '/Notifications/OtpNotification.php',
-            'blueprints/Auth/Exceptions/InvalidCredentialsException.php.stub' => $domainPath . '/Exceptions/InvalidCredentialsException.php',
-            'blueprints/Auth/Exceptions/InvalidTokenException.php.stub' => $domainPath . '/Exceptions/InvalidTokenException.php',
-            'blueprints/Auth/Exceptions/InvalidOtpException.php.stub' => $domainPath . '/Exceptions/InvalidOtpException.php',
+            'blueprints/Auth/Actions/LoginAction.php.stub' => $domainPath.'/Actions/LoginAction.php',
+            'blueprints/Auth/Actions/LogoutAction.php.stub' => $domainPath.'/Actions/LogoutAction.php',
+            'blueprints/Auth/Actions/RegisterAction.php.stub' => $domainPath.'/Actions/RegisterAction.php',
+            'blueprints/Auth/Actions/ForgotPasswordAction.php.stub' => $domainPath.'/Actions/ForgotPasswordAction.php',
+            'blueprints/Auth/Actions/ResetPasswordAction.php.stub' => $domainPath.'/Actions/ResetPasswordAction.php',
+            'blueprints/Auth/Actions/VerifyOtpAction.php.stub' => $domainPath.'/Actions/VerifyOtpAction.php',
+            'blueprints/Auth/Data/LoginData.php.stub' => $domainPath.'/Data/LoginData.php',
+            'blueprints/Auth/Data/RegisterData.php.stub' => $domainPath.'/Data/RegisterData.php',
+            'blueprints/Auth/Data/ResetPasswordData.php.stub' => $domainPath.'/Data/ResetPasswordData.php',
+            'blueprints/Auth/Data/OtpData.php.stub' => $domainPath.'/Data/OtpData.php',
+            'blueprints/Auth/Data/AuthResponseData.php.stub' => $domainPath.'/Data/AuthResponseData.php',
+            'blueprints/Auth/Notifications/OtpNotification.php.stub' => $domainPath.'/Notifications/OtpNotification.php',
+            'blueprints/Auth/Exceptions/InvalidCredentialsException.php.stub' => $domainPath.'/Exceptions/InvalidCredentialsException.php',
+            'blueprints/Auth/Exceptions/InvalidTokenException.php.stub' => $domainPath.'/Exceptions/InvalidTokenException.php',
+            'blueprints/Auth/Exceptions/InvalidOtpException.php.stub' => $domainPath.'/Exceptions/InvalidOtpException.php',
             'blueprints/Auth/Controllers/LoginController.php.stub' => app_path('Http/Api/Auth/Controllers/LoginController.php'),
             'blueprints/Auth/Controllers/RegisterController.php.stub' => app_path('Http/Api/Auth/Controllers/RegisterController.php'),
             'blueprints/Auth/Controllers/ForgotPasswordController.php.stub' => app_path('Http/Api/Auth/Controllers/ForgotPasswordController.php'),
@@ -65,6 +65,9 @@ class InstallAuthCommand extends Command
         return self::SUCCESS;
     }
 
+    /**
+     * @param  array<string, string>  $replacements
+     */
     protected function publishFile(string $stub, string $destination, array $replacements = []): void
     {
         if (File::exists($destination) && ! $this->option('force')) {
@@ -102,26 +105,28 @@ class InstallAuthCommand extends Command
             return;
         }
 
-        File::append($apiRoutesPath, PHP_EOL . $stubRoutes);
+        File::append($apiRoutesPath, PHP_EOL.$stubRoutes);
         $this->line('Appended routes to routes/api.php');
     }
 
     protected function configureFeatures(): void
     {
-        $registration = $this->confirm('Enable registration?', config('auth_features.registration', true));
-        $emailVerification = $this->confirm('Enable email verification?', config('auth_features.email_verification', false));
-        $emailOtp = $this->confirm('Enable email OTP?', config('auth_features.email_otp', false));
-        $otpExpiry = config('auth_features.otp_expiry', 10);
+        $registration = $this->confirm('Enable registration?', (bool) config('auth_features.registration', true));
+        $emailVerification = $this->confirm('Enable email verification?', (bool) config('auth_features.email_verification', false));
+        $emailOtp = $this->confirm('Enable email OTP?', (bool) config('auth_features.email_otp', false));
+        $configOtpExpiry = config('auth_features.otp_expiry', 10);
+        $otpExpiry = is_int($configOtpExpiry) ? $configOtpExpiry : 10;
 
         if ($emailOtp) {
-            $otpExpiry = $this->ask('OTP expiry time in minutes?', config('auth_features.otp_expiry', 10));
+            $asked = $this->ask('OTP expiry time in minutes?', (string) $otpExpiry);
+            $otpExpiry = is_numeric($asked) ? (int) $asked : $otpExpiry;
         }
 
         $this->updateConfig([
             'registration' => $registration,
             'email_verification' => $emailVerification,
             'email_otp' => $emailOtp,
-            'otp_expiry' => (int) $otpExpiry,
+            'otp_expiry' => $otpExpiry,
         ]);
 
         config([
@@ -132,6 +137,9 @@ class InstallAuthCommand extends Command
         ]);
     }
 
+    /**
+     * @param  array<string, mixed>  $data
+     */
     protected function updateConfig(array $data): void
     {
         $configPath = config_path('auth_features.php');
@@ -149,7 +157,7 @@ class InstallAuthCommand extends Command
 
         foreach ($data as $key => $value) {
             $exportValue = var_export($value, true);
-            $content = preg_replace("/'{$key}' => .*,/", "'{$key}' => {$exportValue},", $content);
+            $content = preg_replace("/'{$key}' => .*,/", "'{$key}' => {$exportValue},", $content) ?? $content;
         }
 
         File::put($configPath, $content);

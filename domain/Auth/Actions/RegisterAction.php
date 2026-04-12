@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Auth\Actions;
 
 use Domain\Auth\Data\AuthResponseData;
@@ -10,7 +12,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 
-class RegisterAction
+final class RegisterAction
 {
     public function execute(RegisterData $data): AuthResponseData
     {
@@ -33,7 +35,7 @@ class RegisterAction
         ]);
     }
 
-    protected function createUser(RegisterData $data): User
+    private function createUser(RegisterData $data): User
     {
         return User::create([
             'name' => $data->name,
@@ -42,7 +44,7 @@ class RegisterAction
         ]);
     }
 
-    protected function handlePostRegistration(User $user): void
+    private function handlePostRegistration(User $user): void
     {
         if (config('auth_features.email_verification')) {
             event(new Registered($user));
@@ -53,12 +55,12 @@ class RegisterAction
         }
     }
 
-    protected function sendOtp(User $user): void
+    private function sendOtp(User $user): void
     {
         $otp = (string) rand(100000, 999999);
         $expiry = config('auth_features.otp_expiry', 10);
 
-        Cache::put('otp_' . $user->id, $otp, now()->addMinutes($expiry));
+        Cache::put('otp_'.$user->id, $otp, now()->addMinutes($expiry));
 
         $user->notify(new OtpNotification($otp, $expiry));
     }

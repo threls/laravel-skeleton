@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Domain\Auth\Exceptions;
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class InvalidCredentialsException extends HttpException
+final class InvalidCredentialsException extends HttpException
 {
     public function __construct(string $message = 'Invalid credentials.')
     {
