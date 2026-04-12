@@ -11,6 +11,7 @@ use Domain\Auth\Notifications\OtpNotification;
 use Domain\Users\Models\User;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
+use Random\RandomException;
 
 final class LoginAction
 {
@@ -40,9 +41,12 @@ final class LoginAction
         return $user;
     }
 
+    /**
+     * @throws RandomException
+     */
     private function sendOtp(User $user): AuthResponseData
     {
-        $otp = (string) rand(100000, 999999);
+        $otp = (string) random_int(100000, 999999);
         $expiry = config('auth_features.otp_expiry', 10);
 
         Cache::put('otp_'.$user->id, $otp, now()->addMinutes($expiry));

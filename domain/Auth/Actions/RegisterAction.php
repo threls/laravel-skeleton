@@ -11,6 +11,7 @@ use Domain\Users\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
+use Random\RandomException;
 
 final class RegisterAction
 {
@@ -55,9 +56,12 @@ final class RegisterAction
         }
     }
 
+    /**
+     * @throws RandomException
+     */
     private function sendOtp(User $user): void
     {
-        $otp = (string) rand(100000, 999999);
+        $otp = (string) random_int(100000, 999999);
         $expiry = config('auth_features.otp_expiry', 10);
 
         Cache::put('otp_'.$user->id, $otp, now()->addMinutes($expiry));
